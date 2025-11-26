@@ -25,8 +25,7 @@ echo -e "${BLUE}Instalando Docker Engine...${NC}"
       sudo groupadd docker 
       echo -e "${GREEN}Grupo docker criado${NC}"
     fi
-
-    # Add user to docker group
+# Add user to docker group
     if ! groups $USER | grep -q '\bdocker\b'; then
       sudo usermod -aG docker $USER
       echo -e "${GREEN}Usuário $USER adicionado ao grupo docker${NC}"
@@ -34,17 +33,11 @@ echo -e "${BLUE}Instalando Docker Engine...${NC}"
       echo -e "${GREEN}Usuário $USER já está no grupo docker${NC}"
     fi
 
-    # Apply group changes immediately without logout
-    echo -e "${YELLOW}Ativando mudanças de grupo...${NC}"
-    newgrp docker <<EOF
     echo -e "${GREEN}Configuração do Docker concluída!${NC}"
-    EOF
 
     # Verify installation
     echo -e "${BLUE}Verificando instalação...${NC}"
     docker run --rm hello-world && echo -e "${GREEN}Docker instalado e configurado com sucesso!${NC}" || echo -e "${RED}Erro na verificação do Docker${NC}"
-
-    pause
 
 # -------------------
 # Existing Docker Network and Container Management
@@ -53,7 +46,7 @@ BASE_DIR="$HOME/Docker"
 NETWORK_NAME="shared-network"
 
 echo "Criando docker network: $NETWORK_NAME"
-docker network create "$NETWORK_NAME" 2>/dev/null || echo "Rede já existe, seguindo..."
+sudo docker network create "$NETWORK_NAME" 2>/dev/null || echo "Rede já existe, seguindo..."
 
 echo "Procurando projetos em $BASE_DIR..."
 for dir in "$BASE_DIR"/*/; do
@@ -76,7 +69,7 @@ for dir in "$BASE_DIR"/*/; do
       || [ -f "$dir/compose.yml" ] || [ -f "$dir/compose.yaml" ]; then
 
     echo "Arquivo docker-compose encontrado. Subindo containers..."
-    (cd "$dir" && docker compose up -d)
+    (cd "$dir" && sudo docker compose up -d)
 
   else
     echo "Nenhum arquivo docker-compose encontrado. Pulando..."
