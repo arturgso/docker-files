@@ -4,7 +4,7 @@ BASE_DIR="$HOME/Docker"
 NETWORK_NAME="shared-network"
 
 echo "Criando docker network: $NETWORK_NAME"
-docker network create "$NETWORK_NAME" 2>/dev/null || echo "Rede já existe, seguindo..."
+sudo docker network create "$NETWORK_NAME" 2>/dev/null || echo "Rede já existe, seguindo..."
 
 echo "Procurando projetos em $BASE_DIR..."
 for dir in "$BASE_DIR"/*/; do
@@ -27,7 +27,7 @@ for dir in "$BASE_DIR"/*/; do
         || [ -f "$dir/compose.yml" ] || [ -f "$dir/compose.yaml" ]; then
 
         echo "Arquivo docker-compose encontrado. Subindo containers..."
-        (cd "$dir" && docker compose up -d)
+        (cd "$dir" && sudo docker compose up -d)
 
     else
         echo "Nenhum arquivo docker-compose encontrado. Pulando..."
