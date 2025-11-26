@@ -10,6 +10,15 @@ echo "Procurando projetos em $BASE_DIR..."
 for dir in "$BASE_DIR"/*/; do
     [ -d "$dir" ] || continue
 
+    # Extrai apenas o nome da pasta
+    folder_name=$(basename "$dir")
+
+    # Ignora pastas terminadas com .dsb
+    if [[ "$folder_name" == *.dsb ]]; then
+        echo "Ignorando repositório desabilitado: $folder_name"
+        continue
+    fi
+
     echo "--------------------------------------"
     echo "Entrando na pasta: $dir"
 
