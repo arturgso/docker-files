@@ -10,6 +10,7 @@ services:
     command: server /data --console-address ":9001"
     networks:
       - shared-network
+    restart: unless-stopped
 
   mc-init:
     image: quay.io/minio/mc
